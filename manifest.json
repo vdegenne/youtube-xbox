@@ -1,0 +1,26 @@
+{
+	"manifest_version": 3,
+	"name": "youtube-xbox",
+	"version": "0.1",
+	"permissions": [],
+	"background": {
+		"service_worker": "./background.js"
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://www.youtube.com/*"],
+			"js": ["./inject-content.js"],
+			"run_at": "document_start",
+			"all_frames": true
+		}
+	],
+	"icons": {
+		"128": "./assets/images/pwa-192x192.png"
+	},
+	"web_accessible_resources": [
+		{
+			"resources": ["content.js"],
+			"matches": ["<all_urls>"]
+		}
+	]
+}
