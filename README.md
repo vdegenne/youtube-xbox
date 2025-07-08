@@ -1,1 +1,1 @@
-<img src=https://raw.githubusercontent.com/vdegenne/youtube-xbox/refs/heads/main/assets/images/logo.svg>
+<img src=https://raw.githubusercontent.com/vdegenne/youtube-xbox/refs/heads/main/assets/images/logo.svg width=120>
