@@ -9,9 +9,11 @@
 	"devDependencies": {
 		"@types/chrome": "^0.0.329",
 		"@types/youtube": "^0.1.2",
+		"@vdegenne/debouncer": "^1.0.3",
 		"@vdegenne/mini-gamepad": "^0.4.0",
 		"@vdegenne/rollup": "^0.1.6",
 		"@vite-pwa/assets-generator": "^1.0.0",
+		"html-vision": "^0.3.2",
 		"toastit": "^2.2.2",
 		"typescript": "^5.8.3",
 		"wireit": "^0.14.12"

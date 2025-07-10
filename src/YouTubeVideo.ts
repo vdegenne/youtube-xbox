@@ -1,3 +1,4 @@
+import {getElement} from 'html-vision'
 export const PlayerState = {
 	UNSTARTED: -1,
 	ENDED: 0,
@@ -8,31 +9,18 @@ export const PlayerState = {
 } as const
 
 export class YouTubeVideo {
+	static videoSelector = 'video'
+	static waitUntilVideoIsAvailable() {
+		return getElement(this.videoSelector, {timeoutMs: -1})
+	}
 	static getVideoId() {
 		var urlParams = new URLSearchParams(window.location.search)
 		return urlParams.get('v')
 	}
-	static timeupdateSet = false
-	static #lastSave = 0
 	static get videoElement() {
 		const video = document.querySelector<HTMLVideoElement>('video')
 		if (!video) {
 			throw new Error('no video found.')
-		}
-		if (!this.timeupdateSet) {
-			video.addEventListener('timeupdate', () => {
-				const now = Date.now()
-				if (now - this.#lastSave > 5000) {
-					// save every 5 seconds
-					const id = this.getVideoId()
-					if (id) {
-						const d = JSON.parse(localStorage.getItem('youtube-xbox') ?? '{}')
-						d[id] = this.videoElement.currentTime
-						localStorage.setItem('youtube-xbox', JSON.stringify(d))
-					}
-					this.#lastSave = now
-				}
-			})
 		}
 		return video
 	}
@@ -47,10 +35,20 @@ export class YouTubeVideo {
 		this.videoElement.pause()
 	}
 	static toggleVideo() {
+		document.querySelector<HTMLElement>('.ytp-play-button')?.click()
+		return
 		if (this.isPlaying) {
 			this.pauseVideo()
 		} else {
 			this.playVideo()
+		}
+	}
+	static resumeLive() {
+		const liveBadge = document.querySelector<HTMLElement>('.ytp-live-badge')
+		if (liveBadge) {
+			if (!liveBadge.classList.contains('ytp-live-badge-is-livehead')) {
+				liveBadge.click()
+			}
 		}
 	}
 
@@ -83,18 +81,90 @@ export class YouTubeVideo {
 		}
 	}
 
-	static rewind(s: number) {
-		this.videoElement.currentTime -= s
+	static rewind(s?: number) {
+		if (s === undefined) {
+			document.dispatchEvent(
+				new KeyboardEvent('keydown', {
+					key: 'ArrowLeft',
+					code: 'ArrowLeft',
+					keyCode: 37,
+					bubbles: true,
+					cancelable: true,
+				}),
+			)
+		} else {
+			this.videoElement.currentTime -= s
+		}
 	}
-	static fastforward(s: number) {
-		this.videoElement.currentTime += s
+	static fastforward(s?: number) {
+		if (s === undefined) {
+			document.dispatchEvent(
+				new KeyboardEvent('keydown', {
+					key: 'ArrowRight',
+					code: 'ArrowRight',
+					keyCode: 39,
+					bubbles: true,
+					cancelable: true,
+				}),
+			)
+		} else {
+			this.videoElement.currentTime += s
+		}
+	}
+	static oneFrameBack() {
+		document.dispatchEvent(
+			new KeyboardEvent('keydown', {
+				key: ',',
+				code: 'Comma',
+				keyCode: 188,
+				bubbles: true,
+				cancelable: true,
+			}),
+		)
+	}
+	static oneFrameForward() {
+		document.dispatchEvent(
+			new KeyboardEvent('keydown', {
+				key: '.',
+				code: 'Period',
+				keyCode: 190,
+				bubbles: true,
+				cancelable: true,
+			}),
+		)
 	}
 
-	static decreaseSpeed(rate = 0.25) {
-		this.videoElement.playbackRate -= rate
+	static decreaseSpeed(rate?: number) {
+		if (rate === undefined) {
+			document.dispatchEvent(
+				new KeyboardEvent('keydown', {
+					key: '<',
+					code: 'Comma',
+					keyCode: 188,
+					shiftKey: true,
+					bubbles: true,
+					cancelable: true,
+				}),
+			)
+		} else {
+			this.videoElement.playbackRate -= rate
+		}
 	}
-	static increaseSpeed(rate = 0.25) {
-		this.videoElement.playbackRate += rate
+	static increaseSpeed(rate?: number) {
+		if (rate === undefined) {
+			document.dispatchEvent(
+				new KeyboardEvent('keydown', {
+					key: '>',
+					code: 'Period',
+					keyCode: 190,
+					shiftKey: true,
+					bubbles: true,
+					cancelable: true,
+				}),
+			)
+		} else {
+			this.videoElement.playbackRate += rate
+		}
 	}
 
 	static fullscreen() {
