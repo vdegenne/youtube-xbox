@@ -125,6 +125,9 @@ minigp.onConnect((gp) => {
 			case Mode.NORMAL:
 				player.toggleControls()
 				break
+			case Mode.PRIMARY:
+				player.toggleSubtitles()
+				break
 		}
 	})
 

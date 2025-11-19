@@ -1,4 +1,5 @@
 export function toast(input: string | number) {
+	return
 	const containerId = '__custom_snackbar_container'
 	let container = document.getElementById(containerId)
 

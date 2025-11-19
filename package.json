@@ -7,16 +7,16 @@
 		"build": "wireit"
 	},
 	"devDependencies": {
-		"@types/chrome": "^0.1.24",
+		"@types/chrome": "^0.1.30",
 		"@types/youtube": "^0.1.2",
 		"@vdegenne/bip": "^1.0.4",
-		"@vdegenne/debouncer": "^1.0.6",
-		"@vdegenne/mini-gamepad": "^0.4.5",
+		"@vdegenne/debouncer": "^1.0.9",
+		"@vdegenne/mini-gamepad": "^0.4.7",
 		"@vdegenne/py-server": "^0.1.5",
 		"@vdegenne/rollup": "^0.1.14",
-		"@vdegenne/youtube": "^0.1.4",
+		"@vdegenne/youtube": "^0.1.8",
 		"@vite-pwa/assets-generator": "^1.0.2",
-		"html-vision": "^0.3.4",
+		"html-vision": "^0.3.8",
 		"typescript": "^5.9.3",
 		"wireit": "^0.14.12"
 	},
