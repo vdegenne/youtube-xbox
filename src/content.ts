@@ -151,7 +151,7 @@ minigp.onConnect((gp) => {
 				} catch {}
 				try {
 					document.exitFullscreen()
-					player.pause()
+					// player.pause()
 				} catch {}
 				break
 		}
