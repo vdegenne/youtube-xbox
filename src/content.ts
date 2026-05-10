@@ -10,6 +10,7 @@ import {
 } from '@vdegenne/youtube'
 import {YouTubePlayer} from '@vdegenne/youtube/player.js'
 import {getElement} from 'html-vision'
+import './prevent-alt-arrows.js'
 import {JoyRepetiters} from './repetitions.js'
 import {toast} from './snackbar.js'
 
@@ -97,7 +98,7 @@ minigp.onConnect((gp) => {
 				}
 				break
 			case Mode.PRIMARY:
-				const newVolume = player.volumeUp(0.2)
+				const newVolume = player.volumeUp()
 				if (newVolume !== undefined) {
 					toast(newVolume)
 				}
@@ -112,7 +113,7 @@ minigp.onConnect((gp) => {
 				}
 				break
 			case Mode.PRIMARY:
-				const newVolume = player.volumeDown(0.2)
+				const newVolume = player.volumeDown()
 				if (newVolume !== undefined) {
 					toast(newVolume)
 				}

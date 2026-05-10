@@ -12,8 +12,8 @@ export function leftJoystickLeftFunction(mode: Mode) {
 			break
 		case Mode.PRIMARY:
 			// YouTubeVideo.rewind(12)
-			player.rewind()
-			player.rewind()
+			// player.rewind()
+			// player.rewind()
 			break
 	}
 }
@@ -25,8 +25,8 @@ export function leftJoystickRightFunction(mode: Mode) {
 			}
 			break
 		case Mode.PRIMARY:
-			player.fastforward()
-			player.fastforward()
+			// player.fastforward()
+			// player.fastforward()
 			break
 	}
 }
