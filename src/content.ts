@@ -22,10 +22,12 @@ const minigp = new MiniGamepad({
 
 minigp.onConnect((gp) => {
 	window.addEventListener('youtube-xbox:on', () => {
-		gp.enabled = false
+		console.log('YOUTUBE_XBOX_ON')
+		gp.enabled = true
 	})
 	window.addEventListener('youtube-xbox:off', () => {
-		gp.enabled = true
+		console.log('YOUTUBE_XBOX_OFF')
+		gp.enabled = false
 	})
 	const btn = gp.mapping
 
