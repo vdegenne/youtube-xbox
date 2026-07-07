@@ -7,11 +7,11 @@ import {
 	nextShort,
 	previousShort,
 	waitUntilVideoIsAvailable,
-} from '@vdegenne/youtube'
+} from '@vdegenne/youtube/functions.js'
 import {YouTubePlayer} from '@vdegenne/youtube/player.js'
 import {getElement} from 'html-vision'
 import './prevent-alt-arrows.js'
-import {JoyRepetiters} from './repetitions.js'
+import {dpadRepeaters, JoyRepetiters} from './repeaters.js'
 import {toast} from './snackbar.js'
 
 export const player = new YouTubePlayer(getVisibleYouTubeVideo)
@@ -21,6 +21,12 @@ const minigp = new MiniGamepad({
 })
 
 minigp.onConnect((gp) => {
+	window.addEventListener('youtube-xbox:on', () => {
+		gp.enabled = false
+	})
+	window.addEventListener('youtube-xbox:off', () => {
+		gp.enabled = true
+	})
 	const btn = gp.mapping
 
 	gp.for(btn.L1).before(({mode}) => {
@@ -49,77 +55,88 @@ minigp.onConnect((gp) => {
 
 	gp.for(btn.LEFT_STICK_LEFT)
 		.before(({mode}) => {
-			JoyRepetiters.leftleft.triggerCall(mode)
+			JoyRepetiters.leftleft.start(mode)
 		})
 		.after(() => {
-			JoyRepetiters.leftleft.releasedCall()
+			JoyRepetiters.leftleft.stop()
 		})
 
 	gp.for(btn.LEFT_STICK_RIGHT)
 		.before(({mode}) => {
-			JoyRepetiters.leftright.triggerCall(mode)
+			JoyRepetiters.leftright.start(mode)
 		})
 		.after(() => {
-			JoyRepetiters.leftright.releasedCall()
+			JoyRepetiters.leftright.stop()
 		})
 
-	gp.for(btn.LEFT_BUTTONS_LEFT).before(({mode}) => {
-		switch (mode) {
-			case Mode.NORMAL:
-				player.oneFrameBack()
-				break
-			case Mode.PRIMARY:
-				const newSpeed = player.decreaseSpeed()
-				if (newSpeed !== undefined) {
-					toast(newSpeed)
-				}
-				break
-		}
-	})
-	gp.for(btn.LEFT_BUTTONS_RIGHT).before(({mode}) => {
-		switch (mode) {
-			case Mode.NORMAL:
-				player.oneFrameForward()
-				break
-			case Mode.PRIMARY:
-				const newSpeed = player.increaseSpeed()
-				if (newSpeed !== undefined) {
-					toast(newSpeed)
-				}
-				break
-		}
-	})
+	gp.for(btn.LEFT_BUTTONS_LEFT)
+		.before(({mode}) => {
+			switch (mode) {
+				case Mode.NORMAL:
+					dpadRepeaters.left.start()
+					break
+				case Mode.PRIMARY:
+					const newSpeed = player.decreaseSpeed()
+					if (newSpeed !== undefined) {
+						toast(newSpeed)
+					}
+					break
+			}
+		})
+		.after(() => {
+			dpadRepeaters.left.stop()
+		})
+	gp.for(btn.LEFT_BUTTONS_RIGHT)
+		.before(({mode}) => {
+			switch (mode) {
+				case Mode.NORMAL:
+					dpadRepeaters.right.start()
+					break
+				case Mode.PRIMARY:
+					const newSpeed = player.increaseSpeed()
+					if (newSpeed !== undefined) {
+						toast(newSpeed)
+					}
+					break
+			}
+		})
+		.after(() => {
+			dpadRepeaters.right.stop()
+		})
 
-	gp.for(btn.LEFT_BUTTONS_TOP).before(async ({mode}) => {
-		switch (mode) {
-			case Mode.NORMAL:
-				if (isShorts()) {
-					previousShort()
-				}
-				break
-			case Mode.PRIMARY:
-				const newVolume = player.volumeUp()
-				if (newVolume !== undefined) {
-					toast(newVolume)
-				}
-				break
-		}
-	})
-	gp.for(btn.LEFT_BUTTONS_BOTTOM).before(async ({mode}) => {
-		switch (mode) {
-			case Mode.NORMAL:
-				if (isShorts()) {
-					nextShort()
-				}
-				break
-			case Mode.PRIMARY:
-				const newVolume = player.volumeDown()
-				if (newVolume !== undefined) {
-					toast(newVolume)
-				}
-				break
-		}
-	})
+	gp.for(btn.LEFT_BUTTONS_TOP)
+		.before(async ({mode}) => {
+			switch (mode) {
+				case Mode.NORMAL:
+					if (isShorts()) {
+						previousShort()
+					}
+					break
+				case Mode.PRIMARY:
+					dpadRepeaters.up.start()
+					break
+			}
+		})
+		.after(() => {
+			dpadRepeaters.up.stop()
+		})
+
+	gp.for(btn.LEFT_BUTTONS_BOTTOM)
+		.before(async ({mode}) => {
+			switch (mode) {
+				case Mode.NORMAL:
+					if (isShorts()) {
+						nextShort()
+					}
+					break
+				case Mode.PRIMARY:
+					dpadRepeaters.down.start()
+					break
+			}
+		})
+		.after(() => {
+			dpadRepeaters.down.stop()
+		})
 
 	gp.for(btn.MIDDLE_LEFT).before(({mode}) => {
 		switch (mode) {
@@ -168,18 +185,18 @@ minigp.onConnect((gp) => {
 
 	gp.for(btn.RIGHT_STICK_LEFT)
 		.before(({mode}) => {
-			JoyRepetiters.rightleft.triggerCall(mode)
+			JoyRepetiters.rightleft.start(mode)
 		})
 		.after(() => {
-			JoyRepetiters.rightleft.releasedCall()
+			JoyRepetiters.rightleft.stop()
 		})
 
 	gp.for(btn.RIGHT_STICK_RIGHT)
 		.before(({mode}) => {
-			JoyRepetiters.rightright.triggerCall(mode)
+			JoyRepetiters.rightright.start(mode)
 		})
 		.after(() => {
-			JoyRepetiters.rightright.releasedCall()
+			JoyRepetiters.rightright.stop()
 		})
 
 	gp.for(btn.RIGHT_STICK_UP).before(({mode}) => {})
