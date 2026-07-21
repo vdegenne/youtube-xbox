@@ -4,45 +4,58 @@
 	"description": "",
 	"type": "module",
 	"scripts": {
-		"build": "wireit"
+		"build": "wireit",
+		"build:ts": "wireit",
+		"build:rollup": "wireit"
 	},
 	"devDependencies": {
 		"@types/chrome": "^0.2.2",
 		"@types/youtube": "^0.3.0",
 		"@vdegenne/bip": "^1.0.4",
-		"@vdegenne/debouncer": "^1.0.12",
+		"@vdegenne/debouncer": "^1.0.17",
 		"@vdegenne/mini-gamepad": "^0.4.16",
 		"@vdegenne/py-server": "^0.1.7",
-		"@vdegenne/rollup": "^0.1.15",
-		"@vdegenne/youtube": "^0.1.19",
+		"@vdegenne/rollup": "^0.1.18",
+		"@vdegenne/youtube": "^0.1.20",
 		"@vite-pwa/assets-generator": "^1.0.2",
 		"html-vision": "^0.3.10",
-		"typescript": "^6.0.3",
+		"typescript": "^7.0.2",
 		"wireit": "^0.14.13"
 	},
 	"wireit": {
 		"bip": {
 			"command": "bip",
 			"dependencies": [
-				"build:content"
+				"build:rollup"
 			]
 		},
 		"build": {
 			"dependencies": [
-				"../youtube:build",
-				"build:content",
+				"build:ts",
+				"build:rollup",
 				"pwa-assets",
 				"bip"
 			]
 		},
-		"build:content": {
+		"build:ts": {
+			"command": "tsc",
+			"clean": "if-file-deleted",
+			"files": [
+				"./tsconfig.json",
+				"./src/"
+			],
+			"output": [
+				"./lib/"
+			]
+		},
+		"build:rollup": {
 			"command": "rollup -c",
 			"dependencies": [
-				"../youtube:build"
+				"build:ts"
 			],
 			"files": [
 				"./tsconfig.json",
-				"./src",
+				"./lib/",
 				"./rollup.config.js"
 			],
 			"output": [

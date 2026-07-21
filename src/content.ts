@@ -42,7 +42,7 @@ minigp.onConnect((gp) => {
 	gp.for(btn.R1).before(({mode}) => {
 		switch (mode) {
 			case Mode.NORMAL:
-				player.toggleSubtitles()
+				// player.toggleSubtitles()
 				break
 		}
 	})
@@ -180,7 +180,7 @@ minigp.onConnect((gp) => {
 	gp.for(btn.RIGHT_BUTTONS_RIGHT).before(({mode}) => {
 		switch (mode) {
 			case Mode.NORMAL:
-				player.resumeLive()
+				// player.resumeLive()
 				break
 		}
 	})

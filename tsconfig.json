@@ -7,6 +7,11 @@
 		"useDefineForClassFields": false,
 		"experimentalDecorators": true,
 		"lib": ["ESNext", "DOM"],
-		"types": ["chrome", "youtube"]
-	}
+		"outDir": "./lib/",
+		"rootDir": "./src/",
+		"types": ["chrome", "youtube"],
+		"skipLibCheck": true
+	},
+	"include": ["./src/**/*"],
+	"exclude": ["./node_modules"]
 }

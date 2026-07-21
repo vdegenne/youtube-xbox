@@ -1,4 +1,4 @@
-import {config, nodeResolve, terser, typescript} from '@vdegenne/rollup'
+import {config, nodeResolve, terser} from '@vdegenne/rollup'
 
 const plugins = [
 	{
@@ -11,18 +11,17 @@ const plugins = [
 		},
 	},
 	nodeResolve(),
-	typescript(),
 	terser(),
 ]
 
 export default config([
 	{
-		input: './src/content.ts',
+		input: './lib/content.js',
 		output: {file: './content.js', format: 'iife'},
 		plugins,
 	},
 	{
-		input: './src/background.ts',
+		input: './lib/background.js',
 		output: {file: './background.js', format: 'iife'},
 		plugins,
 	},
